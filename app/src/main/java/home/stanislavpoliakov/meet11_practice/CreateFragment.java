@@ -1,6 +1,5 @@
 package home.stanislavpoliakov.meet11_practice;
 
-
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -15,19 +14,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-
 /**
- * A simple {@link Fragment} subclass.
+ * Класс dialog-фрагента для создания новой записи
  */
 public class CreateFragment extends DialogFragment {
     private static final String TAG = "meet11_logs";
     private CRUDable mActivity;
     private EditText editTitle, editBody;
 
-    public CreateFragment() {
-        // Required empty public constructor
-    }
-
+    /**
+     * В момент присоединения фрагмента получаем вызывающий контекст, который стараемся привести
+     * к типу CRUDable интерфейса для взаимодействия Fragment -> Activity
+     * @param context вызывающий контекст, в нашем случае Activity
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -45,6 +44,9 @@ public class CreateFragment extends DialogFragment {
         return inflater.inflate(R.layout.fragment_create, container, false);
     }
 
+    /**
+     * Растягиваем фрагмент. По ширине - весь экран, по высоте - по количеству элементов
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -62,11 +64,18 @@ public class CreateFragment extends DialogFragment {
         initViews(view);
     }
 
+    /**
+     * Метод инициализации UI-компонентов фрагмента
+     * @param view, на которой находятся элементы
+     */
     private void initViews(View view) {
         editTitle = view.findViewById(R.id.editTitleEF);
         editBody = view.findViewById(R.id.editTextEF);
 
         Button createButton = view.findViewById(R.id.createButton);
+
+        // По нажатию кнопки создаем объект записи, передаем эту запись в вызывающий контекст
+        // через метод интерфейса взаимодействия и закрываем dialog
         createButton.setOnClickListener(v -> {
             Entry entry = new Entry(editTitle.getText().toString(), editBody.getText().toString());
             mActivity.create(entry);

@@ -4,6 +4,8 @@ import android.support.v7.util.DiffUtil;
 
 import java.util.List;
 
+// Сюда и добавить-то нечего! DiffUtil.Callback какой есть :)
+
 public class DiffCall extends DiffUtil.Callback {
     private List<Entry> oldData, newData;
 

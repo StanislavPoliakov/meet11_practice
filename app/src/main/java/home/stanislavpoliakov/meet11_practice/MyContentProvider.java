@@ -1,16 +1,11 @@
 package home.stanislavpoliakov.meet11_practice;
 
-import android.arch.persistence.room.Room;
 import android.content.ContentProvider;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Handler;
 import android.util.Log;
-
-import java.util.concurrent.Executors;
 
 public class MyContentProvider extends ContentProvider {
     private static final String TAG = "meet11_logs";
@@ -78,7 +73,7 @@ public class MyContentProvider extends ContentProvider {
         int uriType = uriMatcher.match(uri);
         long id;
         if (uriType == ENTRY_ID) {
-            id = mDatabase.insertEntry(ConvertUtills.convertValuesToEntry(values));
+            id = mDatabase.insertEntry(ConvertUtils.convertValuesToEntry(values));
             Log.d(TAG, "insert: id = " + id);
         } else throw new UnsupportedOperationException("Illegal URI(" + uri + ")");
 
@@ -101,7 +96,7 @@ public class MyContentProvider extends ContentProvider {
         int uriType = uriMatcher.match(uri);
         int rowsUpdated;
         if (uriType == ENTRY_ID) {
-            rowsUpdated = mDatabase.updateEntry(ConvertUtills.convertValuesToEntry(values));
+            rowsUpdated = mDatabase.updateEntry(ConvertUtils.convertValuesToEntry(values));
         }
         else throw new UnsupportedOperationException("Illegal URI(" + uri + ")");
 

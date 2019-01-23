@@ -17,13 +17,18 @@ import android.widget.EditText;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Класс dialog-фрагента для редактирования новой записи
  */
 public class EditFragment extends DialogFragment {
     private static final String TAG = "meet11_logs";
     private CRUDable mActivity;
     private EditText title, body;
 
+    /**
+     * В момент присоединения фрагмента получаем вызывающий контекст, который стараемся привести
+     * к типу CRUDable интерфейса для взаимодействия Fragment -> Activity
+     * @param context вызывающий контекст, в нашем случае Activity
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -34,10 +39,9 @@ public class EditFragment extends DialogFragment {
         }
     }
 
-    public EditFragment() {
-        // Required empty public constructor
-    }
-
+    /**
+     * Растягиваем фрагмент. По ширине - весь экран, по высоте - по количеству элементов
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -52,7 +56,6 @@ public class EditFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_edit, container, false);
     }
 
@@ -62,6 +65,11 @@ public class EditFragment extends DialogFragment {
         initViews(view);
     }
 
+    /**
+     * Метод инициализации UI-компонентов фрагмента. Поля данных заполняем данными, полученными в
+     * качестве аргументов при создании фрагмента
+     * @param view, на которой находятся элементы
+     */
     private void initViews(View view) {
         title = view.findViewById(R.id.editTitleEF);
         title.setText(getArguments().getString("title"));
@@ -70,6 +78,10 @@ public class EditFragment extends DialogFragment {
 
         Button editButton = view.findViewById(R.id.editButton);
         editButton.setOnClickListener(v -> {
+
+            // Мы не можем обновить Entry на данном этапе, чтобы передать ее в update, потому что
+            // слепок базы хранит Activity, а не фрагмент. Поэтому собираем Bundle и передаем
+            // в качестве аргумента метода
             Bundle info = new Bundle();
             info.putString("title", title.getText().toString());
             info.putString("body", body.getText().toString());

@@ -85,6 +85,12 @@ public class Entry implements Cloneable{
         return this.isLarge;
     }
 
+    /**
+     * Переопределен, но не использован
+     * @return deep-copy
+     * @throws CloneNotSupportedException
+     */
+    @Ignore
     @Override
     protected Object clone() throws CloneNotSupportedException {
         Entry clonedEntry = (Entry) super.clone();

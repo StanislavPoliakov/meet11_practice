@@ -20,25 +20,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private static final String TAG = "meet11_logs";
     private List<Entry> data;
 
+    /**
+     * Конструктор
+     * @param newData слепок базы, который необходимо отрисовать. Мы будем считать, что данные,
+     *                полученные в конструкторе, то есть при создании, - это oldData, с точки зрения
+     *                DiffUtil
+     */
     public MyAdapter(List<Entry> newData) {
-        //this.data = cloneList(newData);
         this.data = new ArrayList<>();
         this.data.addAll(newData);
-        //Log.d(TAG, "MyAdapter: this.data = " + this.data);
-        //Log.d(TAG, "MyAdapter: data = " + newData);
     }
-
-    /*private List<Entry> cloneList(List<Entry> newList) {
-        List<Entry> resultList = new ArrayList<>();
-        try {
-            for (Entry entry : newList) {
-                resultList.add((Entry) entry.clone());
-            }
-        } catch (CloneNotSupportedException ex) {
-            Log.w(TAG, "cloneList: ", ex);
-        }
-        return resultList;
-    }*/
 
     @NonNull
     @Override
@@ -47,10 +38,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return new MyViewHolder(view);
     }
 
+    /**
+     * Метод запуска DiffUtil для подсчета различий и необходимости отрисовки RecyclerView
+     * @param newData новые данные (слепок с внесенными, но пока не отрисованными изменениями)
+     *                глобальная переменная data хранит "старые" данные (oldData)
+     */
     public void onNewData(List<Entry> newData) {
-        //Log.d(TAG, "onNewData: newData = " + newData);
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffCall(data, newData));
         result.dispatchUpdatesTo(this);
+
+        // Сохраняем текущий слепок
         data.clear();
         data.addAll(newData);
 
@@ -80,6 +77,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             body = itemView.findViewById(R.id.body);
             timestamp = itemView.findViewById(R.id.timestamp);
 
+            // Добавляем контекстное меню по longTouch
             itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
                 menu.add(0, getAdapterPosition(), 0, "Edit");
                 menu.add(0, getAdapterPosition(), 0, "Delete");
