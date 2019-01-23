@@ -25,8 +25,6 @@ public class MyContentProvider extends ContentProvider {
     }
 
     private DatabaseManager mDatabase;
-    //private EntryDAO dao;
-    //private Handler cpHandler = new Handler();
 
     public MyContentProvider() {
     }
